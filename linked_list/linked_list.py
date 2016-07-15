@@ -23,6 +23,16 @@ class LinkedList(object):
     def __init__(self, head=None):
         self.head = head
         
+    def size(self):
+        current = self.head
+        count = 1
+        if self.head:
+            while current.next:
+                current = current.next
+                count += 1
+        return count
+                
+        
     def append(self, new_element):
         current = self.head
         if self.head:
@@ -75,15 +85,25 @@ class LinkedList(object):
     def delete(self, value):
         """Delete the first node with a given value."""
         current = self.head
+        count = 1
         if self.head:
+            pre = current
             while current:
-                if current.value == value:
-                    print "found value: " + str(current.value)
-                    if current.next:
-                        current = current.next
-                    else:
-                        current = None
-                
+                if count == 1:
+                    if current.value == value:
+                        if current.next:
+                            self.head = current.next
+                        else:
+                            self.head = None
+                else:
+                    if current.value == value:
+                        if current.next:
+                            pre.next = current.next
+                        else:
+                            self.head = None
+                    
+                pre = current
+                count += 1
                 if current.next:
                     current = current.next
                 else:
@@ -101,16 +121,11 @@ ll = LinkedList(e1)
 ll.append(e2)
 ll.append(e3)
 
-
 # Test get_position
 # Should print 3
 print ll.head.next.next.value
 # Should also print 3
-print ll.get_position(1).value
-print ll.get_position(2).value
 print ll.get_position(3).value
-print ll.get_position(4).value
-print "done"
 
 
 # Test insert
@@ -118,7 +133,6 @@ ll.insert(e4,3)
 # Should print 4 now
 print ll.get_position(3).value
 
-print 'pre delete'
 # Test delete
 ll.delete(1)
 # Should print 2 now
@@ -127,4 +141,3 @@ print ll.get_position(1).value
 print ll.get_position(2).value
 # Should print 3 now
 print ll.get_position(3).value
-print 'post delete'
